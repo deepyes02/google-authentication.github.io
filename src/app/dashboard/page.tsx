@@ -5,18 +5,26 @@ import styles from './page.module.css'
 
 declare global {
 	interface Window {
-		afterLoginCallback : (response : {credentials : string, clientId : string, client_id:string, select_by:string}) => void
+		afterLoginCallback: (response: { credential: string, clientId: string, client_id: string, select_by: string }) => void
 	}
 }
 
 export default function Dashboard() {
-
 	useEffect(() => {
 		window.afterLoginCallback = (response) => {
 			console.log('Encoded JWT ID token ,', response)
+			fetch('/api/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type' : 'application/json'
+				},
+				body: JSON.stringify({credential : response.credential, client_id: response.client_id})
+			})
+			.then(res => res.json())
+			.then(data => {console.log('User is authenticated successfully', data)})
+			.catch(error => {console.log(error)})
 		}
-	})
-
+	}, [])
 
 	return (
 		<>
