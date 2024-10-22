@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Script from "next/script";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,6 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+			<Script
+			src="https://accounts.google.com/gsi/client"
+			async
+			/>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
